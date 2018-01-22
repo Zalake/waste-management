@@ -1,19 +1,28 @@
-console.log('app setup');
 var express = require('express');
-var http = require('http');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var exphbs  = require('express-handlebars');
 var mongoose = require('mongoose');
+
+var index = require('./routes/index');
+var maps = require('./routes/maps');
+
 var app = express();
-var	request = require('request');
-app.use(bodyParser.urlencoded({ extended: false }));
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(express.static('views/images'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static('public'));
-
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
 mongoose.connect('mongodb://client:shri@ds211088.mlab.com:11088/wmanagement');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -21,112 +30,25 @@ db.once('open', function() {
     console.log('LOGGED | MongoDB Connected - ' + new Date());
 });
 
+app.use('/', index);
+app.use('/maps', maps);
 
-
-var wasteSchema = mongoose.Schema({
-	long: String,
-	lat: String,
-	// status: string,
-	// Name: string,
-	// password: string
-
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-var userSchema = mongoose.Schema({
-	name: String,
-	passwd: String,
-	// status: string,
-	// Name: string,
-	// password: string
-
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-var user = mongoose.model('users', userSchema);
-var dustBin = mongoose.model('garbagecoll', wasteSchema);
-
-app.get('/',function(req,res){
-	// var newCoodinates = new dustBin({
-	// 						'lat': 13.092623, 
-	// 						'long': 77.599909 
-	// 					});
-	// newCoodinates.save();
-	// var new2 = new dustBin({
-	// 						'lat': 13.792623, 
-	// 						'long': 77.597909 
-	// 					});
-	// new2.save();
-	res.render('home');
-	console.log("in app");
-});
-app.post('/',function(req,res){
-	var userName = req.body.name;
-	var password = req.body.password;
-	user.findOne({'user.name':userName},function(err,result){
-		console.log(result);
-	});
-
-
-
-});
-app.post('/register',function(req,res){
-	var userName = req.body.name;
-	var password = req.body.password;
-	var userDetails= new user({
-		'name':userName ,'passwd':password
-	});
-	userDetails.save();
-	res.redirect('/');
-});
-app.get('/register',function(req,res){
-	res.render('register');
-})
-app.get('/maps',function(req,res){
-	dustBin.find(function(err,result){
-	// dustBin.find(function(err,result){
-	// 	var locations=result;
-	// 	console.log(locations[0].lat);
-	// 	res.render('maps',{'locations':locations});
-	var locations=[];
-		for(i=0;i<result.length;i++)
-		{
-			locations.push(result[i].lat);
-			locations.push(result[i].long);
-			
-		}
-console.log(locations);
-		res.render('maps', {'locations':locations});
-	
-	 });
-	});
-	
-app.get('/test',function(req,res){
-// 	dustBin.find(function(err,result){
-// 		// var locations=result;
-// 		// console.log(locations[0].lat);
-// 		// res.render('test',{'locations':locations});
-// 		var locations=[];
-// 		for(i=0;i<result.length;i++)
-// 		{
-// 			locations.push(result[i].lat);
-// 			locations.push(result[i].long);
-			
-// 		}
-// console.log(locations);
-// 		res.render('test', {'locations':locations});
-dustBin.find(function(err,result){
-var locations=[];
-		for(i=0;i<result.length;i++)
-		{
-			locations.push(result[i].lat);
-			locations.push(result[i].long);
-			
-		}
-console.log(locations);
-		res.render('test1', {'locations':locations});
-	
-	 });
-	});
-	
-	
-app.listen(8081);
+module.exports = app;
