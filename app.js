@@ -8,6 +8,9 @@ var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var maps = require('./routes/maps');
+var login = require('./routes/login');
+var register = require('./routes/register');
+var session = require('express-session');
 
 var app = express();
 
@@ -30,8 +33,18 @@ db.once('open', function() {
     console.log('LOGGED | MongoDB Connected - ' + new Date());
 });
 
+
+app.use(session({
+    secret:"qwerty",
+    resave:true,
+    cookie:true,
+    saveUninitialized:false
+}));
+
 app.use('/', index);
 app.use('/maps', maps);
+app.use('/login', login);
+app.use('/register', register);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

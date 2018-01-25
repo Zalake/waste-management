@@ -6,9 +6,16 @@ var user = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('home');
+  res.render('register');
 });
 
-
+router.post('/',function(req,res){
+	var newUser = new user({
+		name: req.body.name,
+		passwd: req.body.password
+	});
+	newUser.save();
+	res.redirect('/login');
+});
 
 module.exports = router;

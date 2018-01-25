@@ -14,7 +14,10 @@ var locations=[];
 			
 		}
 		console.log("jubin"+locations);
-		res.render('maps', {'locations':locations});
+		if(req.session.loggedIn)
+			res.render('maps', {'locations':locations});
+		else
+			res.redirect('/');
 	 });
 });
 

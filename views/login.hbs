@@ -1,0 +1,28 @@
+<!-- Login Page
+<form method="POST"  action="/login">
+    name: <input type="text" name="name"> 
+    password: <input type="password" name="password">  
+    <input type="submit" value="submit">
+</form> 
+ -->
+ <div id="login">
+{{msg}}
+ <form method="POST" action="/login">
+
+    <div class="md-form">
+        <i class="fa fa-envelope prefix grey-text"></i>
+        <input type="text" id="defaultForm-email" class="form-control" name="name">
+        <label for="defaultForm-email">name</label>
+    </div>
+
+    <div class="md-form">
+        <i class="fa fa-lock prefix grey-text"></i>
+        <input type="password" id="defaultForm-pass" class="form-control" name="password">
+        <label for="defaultForm-pass">Your password</label>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-default">Login</button>
+    </div>
+</form>
+</div>
