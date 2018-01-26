@@ -13,10 +13,11 @@ router.post('/',function(req,res){
 	var userName = req.body.name;
 	var password = req.body.password;
 	console.log(userName, password);
-	user.findOne({'name':userName},'name passwd',function(err,result){
+	user.findOne({'name':userName},function(err,result){
+		console.log(result);
 		if(result.passwd==password){
-		req.session.loggedIn=userName;
-		res.redirect('/maps');
+			req.session.loggedIn=userName;
+			res.redirect('/maps');
 		}
 		else
 		{

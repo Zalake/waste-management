@@ -72,7 +72,7 @@ background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, F
     align:center;
     border-style: hidden;
 }
-nput[type=text], input[type=password] {
+input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -87,9 +87,9 @@ button {
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
-    border: none;
+    border: solid;
+    border-width: thin;
     cursor: pointer;
-    width: 100%;
 }
 
 button:hover {
@@ -121,45 +121,6 @@ span.psw {
     padding-top: 16px;
 }
 
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,66,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    padding-top: 60px;
-}
-
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    width: 100%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button (x) */
-.close {
-    position: absolute;
-    right: 25px;
-    top: 0;
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: red;
-    cursor: pointer;
-}
-
 /* Add Zoom Animation */
 .animate {
     -webkit-animation: animatezoom 0.6s;
@@ -186,14 +147,11 @@ span.psw {
        width: 100%;
     }
 }
-#page{
-    height: 500px;
-    margin-top: 0px;
-    background-color: white;
+#loginButton{
+    width: 10%,
+    text-align:center;
 }
-#reg{
-    width: 50%;
-    height: 40%;
-    margin-left: 25%
-
+#registerButton{
+    width: 14%,
+    text-align:center;
 }

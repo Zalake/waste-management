@@ -6,6 +6,7 @@ var user = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	
   res.render('home');
 });
 
