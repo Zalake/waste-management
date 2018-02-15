@@ -1,7 +1,9 @@
 <div id="map_wrapper">
     <div id="map_canvas" class="mapping"></div>
-    <a href="" id="maps">submit</a><br><br>
-    <a href="/logout">Logout</a>
+    <form method="POST" action="/maps"> 
+        <input id="id" type="String" name="id">
+        <button type="submit" value="submit">confirm</button>
+    </form>
 </div>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9q7X02IpHJI_GYGjfIvvp8y9Ffp--EX0&callback=initialize">
@@ -22,16 +24,19 @@ function initialize() {
     var directionsDisplay = new google.maps.DirectionsRenderer({map:map});
     map.setTilt(45);
     var dataString = "{{locations}}";
+    console.log("string",dataString);
     var dataArray = [];
     dataArray = dataString.split(',');
     var markers = [];
-    for(var j=0;j<dataArray.length;j+=2)    
+    for(var j=0;j<dataArray.length;j+=4)    
     {
         markers.push(
             [
                 "dustbin "+j, 
                 dataArray[j], 
-                dataArray[j+1]
+                dataArray[j+1],
+                dataArray[j+2],
+                dataArray[j+3]
             ]
         );
     }
@@ -61,17 +66,26 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
             console.log(markers);
 
      for( i = 0; i < markers.length; i++ ) {
-         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-         bounds.extend(position);
-         marker = new google.maps.Marker({
-             position: position,
-             map: myMap,
-             icon : image,
-             title: markers[i][0]
-        });
+        if(markers[i][4]=="full"){   
+        
+            var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
+            bounds.extend(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: myMap,
+                icon : image,
+                title: markers[i][0],
+            });
+            marker.set("id", markers[i][1]);
+            var myId = marker.get("id");
+            console.log(myId);
+        }
+        else
+            continue;
 
         marker.addListener('click',function(evt){
             var markerLatLng = {lat:evt.latLng.lat(),lng:evt.latLng.lng()};
+            document.getElementById("id").value=this.id;
             calculateDirectionsDisplay(myMap,myPos,markerLatLng,directionsService,directionsDisplay);
             
         });
@@ -82,6 +96,7 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
          myMap.fitBounds(bounds);
          // Automatically center the map fitting all markers on the screen
           // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+
         
     }
     var markerCluster = new MarkerClusterer(myMap, markArr,
@@ -122,7 +137,9 @@ function calculateDirectionsDisplay(myMap,myPos,markerLatLng,directionsService,d
     myMap.setCenter(markerLatLng);
     myMap.setZoom(55);
     console.log(directionsService);
-    document.getElementById("maps").href="https://www.google.co.in/maps/dir/" +String(myPos.lat)+","+String(myPos.lng)+"/"+String(markerLatLng.lat)+","+String(markerLatLng.lng)+"/";
+   
+    
+
 }
 
 </script>

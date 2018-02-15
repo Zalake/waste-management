@@ -4,30 +4,36 @@
     password: <input type="password" name="password">  
     <input type="submit" value="submit">
 </form> -->
-<div id="reg">
-<form method="POST" action="/register">
+<form method="POST" action="/register" class="form">
     <p class="h5 text-center mb-4">Sign up</p>
 
     <div class="md-form">
         <i class="fa fa-user prefix grey-text"></i>
         <input type="text" id="orangeForm-name" class="form-control" name=name>
-        <label for="orangeForm-name">Your name</label>
+        <label class="label" for="orangeForm-name">Your name</label>
     </div>
+
     <div class="md-form">
         <i class="fa fa-envelope prefix grey-text"></i>
         <input type="text" id="orangeForm-email" class="form-control" name=email>
-        <label for="orangeForm-email">Your email</label>
+        <label class="label"for="orangeForm-email">Your email</label>
     </div>
 
     <div class="md-form">
         <i class="fa fa-lock prefix grey-text"></i>
         <input type="password" id="orangeForm-pass" class="form-control" name=password>
-        <label for="orangeForm-pass">Your password</label>
+        <label class="label"for="orangeForm-pass">Your password</label>
     </div>
-
+    <div class="md-form">
+        <i class="fa fa-envelope prefix grey-text"></i> 
+        <select class="form-control" id="sel1" name="role">
+            <option>register as Driver</option>
+            <option>register as Customer</option>
+        </select>
+        
+    </div>
     <div class="text-center">
         <button class="btn btn-deep-orange">Sign up</button>
     </div>
 
 </form>
-</div>
