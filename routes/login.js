@@ -18,6 +18,7 @@ router.post('/',function(req,res){
 			console.log(result);
 			if(result.passwd==password){
 				req.session.loggedIn=true;
+				req.session.userName=result.name;
 				req.session.user=result.status;
 				if(result.status=="register as Customer"){
 					console.log("userpage");
@@ -27,7 +28,6 @@ router.post('/',function(req,res){
 
 					res.redirect('/maps');
 				}
-				console.log(req.session)
 			}
 		}
 		else

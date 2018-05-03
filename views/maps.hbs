@@ -1,18 +1,106 @@
+
 <div id="map_wrapper">
     <div id="map_canvas" class="mapping"></div>
-    <form method="POST" action="/maps"> 
-        <input id="id" type="String" name="id">
-        <button type="submit" value="submit">confirm</button>
-    </form>
+    <input id="id" type="String" name="id" >
+    <input id="mylat" type="String" name="mylat" hidden>
+    <input id="mylng" type="String" name="mylng" hidden>
+    <input id="mlat" type="String" name="mlat" hidden>
+    <input id="mlng" type="String" name="mlng" hidden>
+    
+    <button onclick="sendData()" >confirm</button>
 </div>
+
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9q7X02IpHJI_GYGjfIvvp8y9Ffp--EX0&callback=initialize">
 </script>
+ <script src="/socket.io/socket.io.js"></script>
+
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
 <script>
 
-function initialize() {
+
+var socket = io(); 
+var dataObj = {};
+
+function sendData() {
+    dataObj = {
+        "id":document.getElementById("id").value,
+        "mylat":document.getElementById("mylat").value,
+        "mylng":document.getElementById("mylng").value,
+        "mlat":document.getElementById("mlat").value,
+        "mlng":document.getElementById("mlng").value
+    };
+    socket.emit("locationData", dataObj);
+}
+
+socket.on('initData',function(data){
+    console.log("data",data);
+    console.log("datalength", data.length);
+    var markers = [];
+    for(var j=0;j<data.length;j+=4)    
+    {
+        markers.push(
+            [
+                "dustbin "+j, 
+                data[j], 
+                data[j+1],
+                data[j+2],
+                data[j+3]
+            ]
+        );
+    }
+    console.log("markers",markers);
+    initialize(markers);
+});
+
+socket.on('updateMaps',function (data){
+    var markers = [];
+    for(var j=0;j<data.length;j+=4)    
+    {
+        markers.push(
+            [
+                "dustbin "+j, 
+                data[j], 
+                data[j+1],
+                data[j+2],
+                data[j+3]
+            ]
+        );
+    }
+    initialize(markers);
+
+    console.log("updated");
+}); 
+socket.on('newDustBin',function(data){
+    var markers = [];
+    for(var j=0;j<data.length;j+=4)    
+    {
+        markers.push(
+            [
+                "dustbin "+j, 
+                data[j], 
+                data[j+1],
+                data[j+2],
+                data[j+3]
+            ]
+        );
+    }
+    initialize(markers);
+
+    console.log("updated");
+
+});
+socket.on('mapsPage',function(data){
+    window.location.href = data;
+})   
+    
+
+
+
+
+
+function initialize(markers) {
     var map;
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
@@ -23,40 +111,81 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     var directionsDisplay = new google.maps.DirectionsRenderer({map:map});
     map.setTilt(45);
-    var dataString = "{{locations}}";
-    console.log("string",dataString);
-    var dataArray = [];
-    dataArray = dataString.split(',');
-    var markers = [];
-    for(var j=0;j<dataArray.length;j+=4)    
-    {
-        markers.push(
-            [
-                "dustbin "+j, 
-                dataArray[j], 
-                dataArray[j+1],
-                dataArray[j+2],
-                dataArray[j+3]
-            ]
-        );
-    }
-
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-            var pos = {
-                lat:position.coords.latitude,
-                lng:position.coords.longitude
-            };
-            displayMarkers(markers,map,bounds,pos,directionsService,directionsDisplay);    
-        },
-        function(){
-            handleLocationError(true,map.getCentre());
-        });
-    }
-    else{
-        handleLocationError(false,map.getCentre());
-    }
+    var socket = io();
+        // var id = document.getElementById("id").value;
+        // socket.emit('idValue' ,id);
+        // console.log("data sent"); 
+        // socket.on('refreshData',function(data){
+        //     console.log("data",data);
+        //     console.log("datalength", data.length);
+        //     /*read(data);*/
+        //     var markers = [];
+            // for(var j=0;j<data.length;j+=4)    
+            // {
+            //     markers.push(
+            //         [
+            //             "dustbin "+j, 
+            //             data[j], 
+            //             data[j+1],
+            //             data[j+2],
+            //             data[j+3]
+            //         ]
+            //     );
+            // }
+            console.log("markers",markers);
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var pos = {
+                        lat:position.coords.latitude,
+                        lng:position.coords.longitude
+                    };
+                    displayMarkers(markers,map,bounds,pos,directionsService,directionsDisplay);    
+                },
+                function(){
+                    handleLocationError(true,map.getCentre());
+                });
+            }
+            else{
+                handleLocationError(false,map.getCentre());
+            }
+    // });
+            // initialize(markers);
+        
 }
+    // var dataString = "{{locations}}";
+    // console.log("string",dataString);
+    // var dataArray = [];
+    // dataArray = dataString.split(',');
+    // var markers = [];
+    // for(var j=0;j<dataArray.length;j+=4)    
+    // {
+    //     markers.push(
+    //         [
+    //             "dustbin "+j, 
+    //             dataArray[j], 
+    //             dataArray[j+1],
+    //             dataArray[j+2],
+    //             dataArray[j+3]
+    //         ]
+    //     );
+    // }
+
+//     if(navigator.geolocation){
+//         navigator.geolocation.getCurrentPosition(function(position){
+//             var pos = {
+//                 lat:position.coords.latitude,
+//                 lng:position.coords.longitude
+//             };
+//             displayMarkers(markers,map,bounds,pos,directionsService,directionsDisplay);    
+//         },
+//         function(){
+//             handleLocationError(true,map.getCentre());
+//         });
+//     }
+//     else{
+//         handleLocationError(false,map.getCentre());
+//     }
+// }
 
 //display markers
 function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsDisplay){
@@ -86,6 +215,10 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
         marker.addListener('click',function(evt){
             var markerLatLng = {lat:evt.latLng.lat(),lng:evt.latLng.lng()};
             document.getElementById("id").value=this.id;
+            document.getElementById("mylat").value=myPos.lat;
+            document.getElementById("mylng").value=myPos.lng;
+            document.getElementById("mlat").value=markerLatLng.lat;
+            document.getElementById("mlng").value=markerLatLng.lng;
             calculateDirectionsDisplay(myMap,myPos,markerLatLng,directionsService,directionsDisplay);
             
         });
@@ -110,7 +243,7 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
     myMap.setCenter(new google.maps.LatLng(myPos));
     console.log(marker);
     var boundsListener = google.maps.event.addListener((myMap), 'bounds_changed', function(event) {
-        myMap.setZoom(10);
+        // myMap.setZoom(10);
         google.maps.event.removeListener(boundsListener);
         });
     

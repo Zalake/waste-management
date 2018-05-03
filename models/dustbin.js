@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var wasteSchema = mongoose.Schema({
+	id: String,
 	long: String,
 	lat: String,
 	status: String,

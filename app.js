@@ -5,6 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var app = express();
+
+var port = 5000;
+var server = require('http').Server(app).listen(port,function(err,success){
+  console.log("server running");
+});
+var io = require('socket.io').listen(server);
+
 
 var index = require('./routes/index');
 var maps = require('./routes/maps');
@@ -12,9 +20,9 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var logout = require('./routes/logout');
 var userpage = require('./routes/userpage');
+var newDustBin = require('./routes/newDustBin');
 var session = require('express-session');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +43,10 @@ db.once('open', function() {
     console.log('LOGGED | MongoDB Connected - ' + new Date());
 });
 
+app.use(function(req,res,next){
+  req.io = io;
+  next();
+});
 
 app.use(session({
     secret:"qwerty",
@@ -49,6 +61,7 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/logout', logout);
 app.use('/userpage', userpage);
+app.use('/newDustBin', newDustBin);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
