@@ -1,6 +1,6 @@
 
 <div id="map_wrapper">
-    <div id="map_canvas" class="mapping"></div>
+    <div id="map_canvas" class="z-depth-1 col-centered" style="height: 600px; width: 600px;"></div>
     <input id="id" type="String" name="id" >
     <input id="mylat" type="String" name="mylat" hidden>
     <input id="mylng" type="String" name="mylng" hidden>
@@ -10,7 +10,7 @@
     <button onclick="sendData()" >confirm</button>
 </div>
 
-<script async defer
+<script defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9q7X02IpHJI_GYGjfIvvp8y9Ffp--EX0&callback=initialize">
 </script>
  <script src="/socket.io/socket.io.js"></script>
@@ -111,6 +111,10 @@ function initialize(markers) {
     map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     var directionsDisplay = new google.maps.DirectionsRenderer({map:map});
     map.setTilt(45);
+    navigator.geolocation.getCurrentPosition(function (position) {
+        initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setCenter(initialLocation);
+    });
     var socket = io();
         // var id = document.getElementById("id").value;
         // socket.emit('idValue' ,id);
@@ -243,7 +247,7 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
     myMap.setCenter(new google.maps.LatLng(myPos));
     console.log(marker);
     var boundsListener = google.maps.event.addListener((myMap), 'bounds_changed', function(event) {
-        // myMap.setZoom(10);
+        myMap.setZoom(8);
         google.maps.event.removeListener(boundsListener);
         });
     

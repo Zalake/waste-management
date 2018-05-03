@@ -4,36 +4,76 @@
     password: <input type="password" name="password">  
     <input type="submit" value="submit">
 </form> -->
-<form method="POST" action="/register" class="form">
+{{!-- <form method="POST" action="/register" class="form">
     <p class="h5 text-center mb-4">Sign up</p>
 
-    <div class="md-form">
-        <i class="fa fa-user prefix grey-text"></i>
-        <input type="text" id="orangeForm-name" class="form-control" name=name>
-        <label class="label" for="orangeForm-name">Your name</label>
-    </div>
 
-    <div class="md-form">
-        <i class="fa fa-envelope prefix grey-text"></i>
-        <input type="text" id="orangeForm-email" class="form-control" name=email>
-        <label class="label"for="orangeForm-email">Your email</label>
-    </div>
+</form> --}}
+<!-- Card -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center hidden-mb"> 
+            <img id="logo" src="images/smart-trash.png">
+        </div>
+        <div class="col-md-6 col-xs-10 mx-auto mt-5 center-block">
+            <table style="height: 100%; width: 100%;">
+              <tbody>
+                <tr>
+                  <td class="align-middle">
+                    <!-- Card -->
+                    <div class="card card-cascade narrower col-md-10">
+                        <!-- Card image -->
+                        <div class="card-header gradient-card-header purple-gradient text-center">
+                            <!-- Title -->
+                            <h2 class="card-header-title">Register</h2>
+                        </div>
+                        <!-- Card body -->
+                        <div class="card-body">
 
-    <div class="md-form">
-        <i class="fa fa-lock prefix grey-text"></i>
-        <input type="password" id="orangeForm-pass" class="form-control" name=password>
-        <label class="label"for="orangeForm-pass">Your password</label>
-    </div>
-    <div class="md-form">
-        <i class="fa fa-envelope prefix grey-text"></i> 
-        <select class="form-control" id="sel1" name="role">
-            <option>register as Driver</option>
-            <option>register as Customer</option>
-        </select>
-        
-    </div>
-    <div class="text-center">
-        <button class="btn btn-deep-orange">Sign up</button>
-    </div>
+                            <!-- Material form register -->
+                            <form method="POST" action="/register">
 
-</form>
+                                <div class="md-form">
+                                    <i class="fa fa-user prefix grey-text"></i>
+                                    <input type="text" id="orangeForm-name" class="form-control" name=name>
+                                    <label class="label" for="orangeForm-name">Your name</label>
+                                </div>
+
+                                <div class="md-form">
+                                    <i class="fa fa-envelope prefix grey-text"></i>
+                                    <input type="text" id="orangeForm-email" class="form-control" name=email>
+                                    <label class="label"for="orangeForm-email">Your email</label>
+                                </div>
+
+                                <div class="md-form">
+                                    <i class="fa fa-lock prefix grey-text"></i>
+                                    <input type="password" id="orangeForm-pass" class="form-control" name=password>
+                                    <label class="label"for="orangeForm-pass">Your password</label>
+                                </div>
+                                <div class="md-form">
+                                    <i class="fa fa-envelope prefix grey-text"></i> 
+                                    <select class="form-control" id="sel1" name="role">
+                                        <option>register as Driver</option>
+                                        <option>register as Customer</option>
+                                    </select>
+                                    
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-deep-orange">Sign up</button>
+                                </div>
+
+                            </form>
+                            <!-- Material form register -->
+
+                        </div>
+                        <!-- Card body -->
+
+                    </div>
+                    <!-- Card -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
