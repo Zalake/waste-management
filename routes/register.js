@@ -13,8 +13,8 @@ router.post('/',function(req,res){
 	console.log(req.body.name, req.body.password,req.body.role);
 	var newUser = new user({
 		name: req.body.name,
-		passwd: req.body.password,
-		status:req.body.role
+		passwd: req.body.password
+		// status:req.body.role
 	});
 	newUser.save(()=> {
 		res.redirect('/login');

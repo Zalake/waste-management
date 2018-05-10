@@ -19,15 +19,16 @@ router.post('/',function(req,res){
 			if(result.passwd==password){
 				req.session.loggedIn=true;
 				req.session.userName=result.name;
-				req.session.user=result.status;
-				if(result.status=="register as Customer"){
-					console.log("userpage");
-					res.redirect('/userpage');
-				}
-				else{
+				// req.session.user=result.status;
+				res.redirect('/maps');
+				// if(result.status=="register as Customer"){
+				// 	console.log("userpage");
+				// 	res.redirect('/userpage');
+				// }
+				// else{
 
-					res.redirect('/maps');
-				}
+					
+				// }
 			}
 		}
 		else

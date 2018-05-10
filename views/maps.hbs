@@ -101,6 +101,7 @@ socket.on('mapsPage',function(data){
 
 
 function initialize(markers) {
+    var markers = markers || [];
     var map;
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {

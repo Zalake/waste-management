@@ -72,7 +72,7 @@ router.get('/', function(req, res, next) {
 	}
 
 
-	if(req.session.loggedIn && req.session.user=="register as Driver")
+	if(req.session.loggedIn)
 	{
 		res.render('maps', {'sessionValue':req.session.loggedIn});
 		
