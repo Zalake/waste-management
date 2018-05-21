@@ -18,7 +18,7 @@ router.get('/',function(req,res){
 			newDustBin.save(callBack);
 		}
 		else{
-			dustBin.update({'id':req.query.id},{$set:{'long':req.query.lng,'lat':req.query.lat}},function(err,result){
+			dustBin.update({'id':req.query.id},{$set:{'long':req.query.lng,'lat':req.query.lat, 'status':"full"}},function(err,result){
 				console.log(err);
 				dustBin.find(function(err,result){
 					var locations=[];
