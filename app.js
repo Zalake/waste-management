@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 
-var port = 5000;
+var port = process.env.PORT||3000;
 var server = require('http').Server(app).listen(port,function(err,success){
   console.log("server running");
 });
