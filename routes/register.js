@@ -14,7 +14,7 @@ router.post('/',function(req,res){
 	var newUser = new user({
 		name: req.body.name,
 		passwd: req.body.password
-		// status:req.body.role
+		
 	});
 	newUser.save(()=> {
 		res.redirect('/login');

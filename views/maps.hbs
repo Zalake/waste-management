@@ -117,26 +117,7 @@ function initialize(markers) {
         map.setCenter(initialLocation);
     });
     var socket = io();
-        // var id = document.getElementById("id").value;
-        // socket.emit('idValue' ,id);
-        // console.log("data sent"); 
-        // socket.on('refreshData',function(data){
-        //     console.log("data",data);
-        //     console.log("datalength", data.length);
-        //     /*read(data);*/
-        //     var markers = [];
-            // for(var j=0;j<data.length;j+=4)    
-            // {
-            //     markers.push(
-            //         [
-            //             "dustbin "+j, 
-            //             data[j], 
-            //             data[j+1],
-            //             data[j+2],
-            //             data[j+3]
-            //         ]
-            //     );
-            // }
+       
             console.log("markers",markers);
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(function(position){
@@ -153,45 +134,10 @@ function initialize(markers) {
             else{
                 handleLocationError(false,map.getCentre());
             }
-    // });
-            // initialize(markers);
+   
         
 }
-    // var dataString = "{{locations}}";
-    // console.log("string",dataString);
-    // var dataArray = [];
-    // dataArray = dataString.split(',');
-    // var markers = [];
-    // for(var j=0;j<dataArray.length;j+=4)    
-    // {
-    //     markers.push(
-    //         [
-    //             "dustbin "+j, 
-    //             dataArray[j], 
-    //             dataArray[j+1],
-    //             dataArray[j+2],
-    //             dataArray[j+3]
-    //         ]
-    //     );
-    // }
-
-//     if(navigator.geolocation){
-//         navigator.geolocation.getCurrentPosition(function(position){
-//             var pos = {
-//                 lat:position.coords.latitude,
-//                 lng:position.coords.longitude
-//             };
-//             displayMarkers(markers,map,bounds,pos,directionsService,directionsDisplay);    
-//         },
-//         function(){
-//             handleLocationError(true,map.getCentre());
-//         });
-//     }
-//     else{
-//         handleLocationError(false,map.getCentre());
-//     }
-// }
-
+    
 //display markers
 function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsDisplay){
     var image= new google.maps.MarkerImage("/images/dustbin.png", null, null, null, new google.maps.Size(20,22));      
@@ -228,12 +174,9 @@ function displayMarkers(markers,myMap,bounds,myPos,directionsService,directionsD
             
         });
         markArr.push(marker);
-         // Display multiple markers on a map
          var infoWindow = new google.maps.InfoWindow(), marker, i;
-         // Loop through our array of markers & place each one on the map   
          myMap.fitBounds(bounds);
-         // Automatically center the map fitting all markers on the screen
-          // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+         
 
         
     }

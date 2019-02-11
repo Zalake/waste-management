@@ -28,20 +28,7 @@ router.get('/', function(req, res, next) {
 				socket.emit('initData',locations);
 				console.log("data sent");
 			});
-			// socket.on('newDustBin', function(data){
-			// 	console.log('lat',data.lat);
-			// 	console.log('lng',data.lng);
-			// 	for(i=0;i<result.length;i++)
-			// 	{	locations.push(result[i].id);
-			// 		locations.push(result[i].lat);
-			// 		locations.push(result[i].long);
-			// 		locations.push(result[i].status);
 			
-			// 	}
-			// 	socket.emit('newDustBin',locations);
-			// 	console.log("data sent");
-
-			// });
 			
 			socket.on('locationData',function(data){
 				var mlat=data.mlat;
@@ -81,27 +68,7 @@ router.get('/', function(req, res, next) {
 		res.redirect('/');
 });
   	
-  // 	if(user != req.session.userName){
-  // 		user = req.session.userName;
-		// req.io.on('connection', function(socket){
-		// 	console.log("maps connected");
-		// 	socket.on('idValue',function(data){
-		// 		console.log("data",data);
-		// 		dustBin.find(function(err,result){
-		// 		var locations=[];
-		// 		for(i=0;i<result.length;i++)
-		// 		{	locations.push(result[i]._id);
-		// 			locations.push(result[i].lat);
-		// 			locations.push(result[i].long);
-		// 			locations.push(result[i].status);
-				
-		// 		}
-		// 		socket.emit('refreshData',locations)
-		// 		});
-			
-		// 	});
-		// });
-  // 	}
+
 
 
 
@@ -114,8 +81,6 @@ router.post('/',function(req,res){
 	var id=req.body.id;
 	dustBin.update({'_id':id},{$set:{status:"notfull"}},function(err,result){
 		console.log("result",result);
-		// if(user != req.session.userName){
-  // 			user = req.session.userName;
 		req.io.on('connection', function(socket){
 			console.log("maps connected");
 			
